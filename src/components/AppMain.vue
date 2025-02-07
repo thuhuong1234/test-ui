@@ -1,17 +1,27 @@
 <template>
     <div class="sessions">
         <div v-for="session in sessions" :key="session.overall_index" :class="['session', handleStatus(session)]">
-            <div :class="['session-card', handleStatus(session)]" :v-if="session.overall_index <= 10">
-                <div :class="['session-number', handleStatus(session)]">
-                    Buổi {{ session.overall_index }}
-                    <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
+            <div :class="['session-card', handleStatus(session)]">
+                <div class="session-header">
+                    <div :class="['session-number', handleStatus(session)]">
+                        Buổi {{ session.overall_index }}
+                        <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
+                    </div>
+                    <div class="session-date" v-if="handleStatus(session) !== 'completed'">
+                        {{ formatDate(session.date) }}
+                    </div>
+                    <div class="session-ward">
+                        <img :src="trophyIcon" alt="Trophy Icon">
+                        <div class="ward-text">0/9</div>
+                    </div>
+
                 </div>
-                <div class="session-date" v-if="handleStatus(session) !== 'completed'">
-                    {{ formatDate(session.date) }}
-                </div>
-                <div class="session-ward">
-                    <img :src="trophyIcon" alt="Trophy Icon">
-                    <div class="ward-text">0/9</div>
+
+                <div class="unit">
+                    <ul :class="['unit-title', handleStatus(session)]">
+                        <li>{{ getUnitTitle(session) }}</li>
+                    </ul>
+                    <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
                 </div>
             </div>
         </div>
@@ -34,7 +44,8 @@ const sessionStatus = {
     future: { value: 'future', icon: futureIcon, label: `` },
     todayCompleted: { value: 'today-completed', icon: completedIcon, label: `` },
     todayIncomplete: { value: 'today-incomplete', icon: latedIcon, label: `` },
-}
+    preCompleted: { value: 'pre-completed', icon: completedIcon, label: `Đã hoàn thành trước khi khởi tạo Study Plan` },
+};
 
 const today = new Date();
 const handleStatus = (session) => {
@@ -55,20 +66,54 @@ const formatDate = (date) => {
     const options = { weekday: 'short', month: 'short', day: 'numeric' };
     return new Date(date).toLocaleDateString('vi-VN', options);
 }
+const getUnitTitle = (session) => {
+    const unitId = session.unit_ids[0];
+    const unit = data.units.find((unit) => unit.unit_id === unitId);
+    return unit ? unit.unit_title : "Unknown Unit";
+};
+const getUnitLabel = (session) => {
+    if (session.completion_date) {
+        if (handleStatus(session) === 'completed') {
+            return `${sessionStatus.completed.label}: ${formatDate(session.completion_date)}`
+        } if (handleStatus(session) === 'lated') {
+            return sessionStatus.lated.label
+        }
+    }
+    if (session.completion_date === null) {
+        if (handleStatus(session) === 'completed') {
+            return sessionStatus.preCompleted.label
+        } if (handleStatus(session) === 'lated') {
+            return sessionStatus.lated.label
+        }
+
+    }
+}
 </script>
 
 <style scoped>
 .sessions {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.session-card {
+.session-header {
     display: flex;
     gap: 10px;
     padding: 10px;
     align-items: center;
+    border-radius: 8px;
+    color: white;
+    transition: background-color 0.3s ease;
+    justify-content: space-between;
+}
+
+.session-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
     border-radius: 8px;
     color: white;
     transition: background-color 0.3s ease;
@@ -103,7 +148,10 @@ const formatDate = (date) => {
     height: 20px;
     width: 80px;
     text-align: center;
-
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .session-number.completed {
@@ -139,5 +187,76 @@ const formatDate = (date) => {
     align-items: center;
     justify-content: center;
     gap: 5px;
+}
+
+.unit {
+    color: black;
+}
+
+.unit-title {
+    color: #616b75;
+}
+
+.unit-title.completed li::marker {
+    font-size: 20px;
+    color: #06ae32;
+}
+
+.unit-title.lated li::marker {
+    font-size: 20px;
+    color: #f89c1b;
+}
+
+.unit-title.future li::marker {
+    font-size: 20px;
+    color: #0c70e6;
+}
+
+.unit-title.todayCompleted li::marker {
+    font-size: 20px;
+    color: #06ae32;
+}
+
+.unit-title.todayIncomplete li::marker {
+    font-size: 20px;
+    color: #0c70e6;
+}
+
+.unit-title.completed li:hover {
+    text-decoration: underline;
+    color: #06ae32;
+}
+
+.unit-title.lated li:hover {
+    text-decoration: underline;
+    color: #f89c1b;
+}
+
+.unit-title.future li:hover {
+    text-decoration: underline;
+    color: #0c70e6;
+}
+
+.unit-title.todayCompleted li:hover {
+    text-decoration: underline;
+    color: #06ae32;
+}
+
+.unit-title.todayIncomplete li:hover {
+    color: #0c70e6;
+    text-decoration: underline;
+}
+
+.unit-status {
+    font-weight: 500;
+    margin-left: 15px;
+}
+
+.unit-status.completed {
+    color: #06ae32;
+}
+
+.unit-status.lated {
+    color: #f89c1b;
 }
 </style>
