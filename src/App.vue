@@ -7,17 +7,21 @@
           Chặng: {{ data.level_name }}
         </label>
         <div class="dashboard">
-          <div class="dashboard-header">
-            <div class="dashboard-btn">Hôm nay</div>
-            <div class="dashboard-title">Tổng quan</div>
-          </div>
-          <hr class="hr" />
-          <div class="month">
-            Tháng 10, 2024
+          <div class="sessions">
+            <div class="sessions-header">
+              <div class="sessions-btn">Hôm nay</div>
+              <div class="sessions-title">Tổng quan</div>
+            </div>
+            <hr class="hr" />
+            <div class="month">
+              Tháng 10, 2024
 
+            </div>
+            <AppMain />
           </div>
-          <AppMain />
+          <SessionProcess />
         </div>
+
 
       </div>
     </main>
@@ -28,6 +32,7 @@
 import AppHeader from "@/components/AppHeader.vue";
 import AppMain from "@/components/AppMain.vue";
 import data from "@/server/api/data";
+import SessionProcess from "./components/SessionProcess.vue";
 </script>
 <style scoped>
 * {
@@ -62,11 +67,16 @@ import data from "@/server/api/data";
 }
 
 .dashboard {
+  display: flex;
+  gap: 10px;
+}
+
+.sessions {
   background-color: #fff;
   border-radius: 5px;
   padding: 10px;
-  margin-left: 40px;
   color: black;
+  width: 75%;
 }
 
 .level-name {
@@ -74,13 +84,13 @@ import data from "@/server/api/data";
   font-size: large;
 }
 
-.dashboard-header {
+.sessions-header {
   display: flex;
   gap: 10px;
   padding-bottom: 10px;
 }
 
-.dashboard-btn {
+.sessions-btn {
   border: 1px solid #cbcbcb;
   border-radius: 7px;
   padding: 8px;
@@ -88,7 +98,7 @@ import data from "@/server/api/data";
   font-size: 13px;
 }
 
-.dashboard-title {
+.sessions-title {
   padding: 8px;
   font-weight: bold;
 }
