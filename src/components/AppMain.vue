@@ -1,35 +1,38 @@
 <template>
-    <div class="sessions">
-        <div v-for="session in sessions" :key="session.overall_index" :class="['session', handleStatus(session)]">
-            <div :class="['session-card', handleStatus(session)]">
-                <div class="session-header">
-                    <div :class="['session-number', handleStatus(session)]">
-                        Buổi {{ session.overall_index }}
-                        <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
-                    </div>
-                    <div class="session-date" v-if="handleStatus(session) !== 'completed'">
-                        {{ formatDate(session.date) }}
-                    </div>
-                    <div class="session-ward">
-                        <img :src="trophyIcon" alt="Trophy Icon">
-                        <div class="ward-text">0/9</div>
+    <div v-for="(sessions, month) in groupedSessions" :key="month">
+        <div class="sessions">
+            <div v-for="session in sessions" :key="session.overall_index" :class="['session', handleStatus(session)]">
+                <div :class="['session-card', handleStatus(session)]">
+                    <div class="session-header">
+                        <div :class="['session-number', handleStatus(session)]">
+                            Buổi {{ session.overall_index }}
+                            <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
+                        </div>
+                        <div class="session-date" v-if="handleStatus(session) !== 'completed'">
+                            {{ formatDate(session.date) }}
+                        </div>
+                        <div class="session-ward">
+                            <img :src="trophyIcon" alt="Trophy Icon">
+                            <div class="ward-text">0/9</div>
+                        </div>
+
                     </div>
 
-                </div>
-
-                <div class="unit">
-                    <ul :class="['unit-title', handleStatus(session)]">
-                        <li>{{ getUnitTitle(session) }}</li>
-                    </ul>
-                    <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
+                    <div class="unit">
+                        <ul :class="['unit-title', handleStatus(session)]">
+                            <li>{{ getUnitTitle(session) }}</li>
+                        </ul>
+                        <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import data from '@/server/api/data';
 import completedIcon from '@/assets/images/done.svg'
 import futureIcon from '@/assets/images/process.svg'
@@ -63,7 +66,7 @@ const handleStatus = (session) => {
 
 }
 const formatDate = (date) => {
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
+    const options = { weekday: 'long', month: 'short', day: 'numeric' };
     return new Date(date).toLocaleDateString('vi-VN', options);
 }
 const getUnitTitle = (session) => {
@@ -88,6 +91,29 @@ const getUnitLabel = (session) => {
 
     }
 }
+
+const groupedSessions = computed(() => {
+    let sessionsWithDate = sessions.value
+        .filter(session => session.date)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    let grouped = {};
+    sessionsWithDate.forEach(session => {
+        let month = new Date(session.date).toLocaleString("vi-VN", { month: "long", year: "numeric" });
+        if (!grouped[month]) grouped[month] = [];
+        grouped[month].push(session);
+    });
+
+    let sessionsWithoutDate = sessions.value
+        .filter(session => !session.date)
+        .sort((a, b) => a.sessionNumber - b.sessionNumber);
+
+    if (sessionsWithoutDate.length) {
+        grouped["Not Date"] = sessionsWithoutDate;
+    }
+
+    return grouped;
+});
 </script>
 
 <style scoped>
