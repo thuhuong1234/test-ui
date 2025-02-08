@@ -9,11 +9,6 @@
         </label>
         <div class="dashboard">
           <div class="sessions-container">
-            <div class="sessions-header">
-              <button class="sessions-btn">Hôm nay</button>
-              <span class="sessions-title">Tổng quan</span>
-            </div>
-            <hr class="hr" />
             <AppMain />
           </div>
           <div class="dashboard-left">
@@ -82,25 +77,6 @@ import cover from "@/assets/images/cover.svg";</script>
 .level-name {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: large;
-}
-
-.sessions-header {
-  display: flex;
-  gap: 10px;
-  padding-bottom: 10px;
-}
-
-.sessions-btn {
-  border: 1px solid #cbcbcb;
-  border-radius: 7px;
-  padding: 8px;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-.sessions-title {
-  padding: 8px;
-  font-weight: bold;
 }
 
 .dashboard-left {
