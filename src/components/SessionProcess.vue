@@ -18,6 +18,7 @@
             <span>Số Unit đạt {{ data.missions.actual_completed_units }} cúp/ Tổng số Unit:</span>
             <div class="progress">
                 <div class="progress-fill actual" :style="{ width: actualProgress + '%' }"></div>
+                <div class="progress-fill expected" :style="{ width: expectedProgress + '%' }"></div>
             </div>
             <div class="progress-bar">
                 <span class="progress-label">
@@ -38,9 +39,16 @@
 import { computed } from 'vue';
 import data from '@/server/api/data';
 import trophy from '@/assets/images/trophy.svg';
+
 const actualProgress = computed(() => {
     return (
-        (data.missions.actual_completed_units / (data.missions.expected_completed_units + data.missions.actual_completed_units)) *
+        (data.missions.actual_completed_units / data.missions.total_units) *
+        100
+    ).toFixed(2);
+});
+const expectedProgress = computed(() => {
+    return (
+        (data.missions.expected_completed_units / data.missions.total_units) *
         100
     ).toFixed(2);
 });
@@ -65,11 +73,8 @@ const statusMessage = computed(() => {
 <style scoped>
 .session-process {
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
-    margin-left: 40px;
-    color: black;
-    width: 20%;
     height: fit-content;
 }
 
@@ -122,7 +127,7 @@ hr {
 .progress {
     width: 100%;
     height: 15px;
-    background-color: #0c70e6;
+    background-color: #e5e5e5;
     border-radius: 8px;
     overflow: hidden;
     position: relative;
@@ -131,17 +136,23 @@ hr {
 
 .progress-fill {
     height: 100%;
-    position: absolute;
     top: 0;
     left: 0;
+    background-color: #e5e5e5;
 }
 
 .progress-fill.actual {
     background-color: #30c55b;
+    z-index: 2;
+    position: relative;
+    border-radius: 8px;
 }
 
 .progress-fill.expected {
     background-color: #0c70e6;
+    z-index: 1;
+    position: absolute;
+    border-radius: 8px;
 }
 
 .status-label {
