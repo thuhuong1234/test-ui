@@ -8,7 +8,7 @@
           Chặng: {{ data.level_name }}
         </label>
         <div class="dashboard">
-          <div class="sessions">
+          <div class="sessions-container">
             <div class="sessions-header">
               <button class="sessions-btn">Hôm nay</button>
               <span class="sessions-title">Tổng quan</span>
@@ -71,7 +71,7 @@ import cover from "@/assets/images/cover.svg";</script>
   gap: 10px;
 }
 
-.sessions {
+.sessions-container {
   background-color: #fff;
   border-radius: 5px;
   padding: 10px;

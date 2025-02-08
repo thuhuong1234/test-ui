@@ -1,40 +1,44 @@
 <template>
-    <div v-for="(sessions, month) in groupedSessions" :key="month">
-        <div class="header-line">
-            <div class="line"></div>
-            <div class="month">
-                {{ month }}
+    <div class="sessions">
+        <div v-for="(sessions, month) in groupedSessions" :key="month">
+            <div class="header-line">
+                <div class="line"></div>
+                <div class="month">
+                    {{ month }}
+                </div>
+                <div class="line"></div>
             </div>
-            <div class="line"></div>
-        </div>
-        <div class="sessions">
-            <div v-for="session in sessions" :key="session.overall_index" :class="['session', handleStatus(session)]">
-                <div :class="['session-card', handleStatus(session)]">
-                    <div class="session-header">
-                        <div :class="['session-number', handleStatus(session)]">
-                            Buổi {{ session.overall_index }}
-                            <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
-                        </div>
-                        <div class="session-date" v-if="handleStatus(session) !== 'completed'">
-                            {{ formatDate(session.date) }}
-                        </div>
-                        <div class="session-ward">
-                            <img :src="trophyIcon" alt="Trophy Icon">
-                            <div class="ward-text">0/9</div>
+            <div class="session-list">
+                <div v-for="session in sessions" :key="session.overall_index"
+                    :class="['session', handleStatus(session)]">
+                    <div :class="['session-card', handleStatus(session)]">
+                        <div class="session-header">
+                            <div :class="['session-number', handleStatus(session)]">
+                                Buổi {{ session.overall_index }}
+                                <img :src="sessionStatus[handleStatus(session)].icon" alt="Status Icon">
+                            </div>
+                            <div class="session-date" v-if="handleStatus(session) !== 'completed'">
+                                {{ formatDate(session.date) }}
+                            </div>
+                            <div class="session-ward">
+                                <img :src="trophyIcon" alt="Trophy Icon">
+                                <div class="ward-text">0/9</div>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="unit">
-                        <ul :class="['unit-title', handleStatus(session)]">
-                            <li>{{ getUnitTitle(session) }}</li>
-                        </ul>
-                        <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
+                        <div class="unit">
+                            <ul :class="['unit-title', handleStatus(session)]">
+                                <li>{{ getUnitTitle(session) }}</li>
+                            </ul>
+                            <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 </template>
 
@@ -125,9 +129,17 @@ const groupedSessions = computed(() => {
 
 <style scoped>
 .sessions {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 80vh;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #e5e5e5;
+}
+
+.session-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    flex-wrap: wrap;
     gap: 10px;
 }
 
