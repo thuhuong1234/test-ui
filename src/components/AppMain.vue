@@ -1,5 +1,12 @@
 <template>
     <div v-for="(sessions, month) in groupedSessions" :key="month">
+        <div class="header-line">
+            <div class="line"></div>
+            <div class="month">
+                {{ month }}
+            </div>
+            <div class="line"></div>
+        </div>
         <div class="sessions">
             <div v-for="session in sessions" :key="session.overall_index" :class="['session', handleStatus(session)]">
                 <div :class="['session-card', handleStatus(session)]">
@@ -96,10 +103,10 @@ const groupedSessions = computed(() => {
     let sessionsWithDate = sessions.value
         .filter(session => session.date)
         .sort((a, b) => new Date(a.date) - new Date(b.date));
-
     let grouped = {};
     sessionsWithDate.forEach(session => {
-        let month = new Date(session.date).toLocaleString("vi-VN", { month: "long", year: "numeric" });
+        let dateObj = new Date(session.date);
+        let month = `Tháng ${dateObj.getMonth() + 1}, ${dateObj.getFullYear()}`;
         if (!grouped[month]) grouped[month] = [];
         grouped[month].push(session);
     });
@@ -109,7 +116,7 @@ const groupedSessions = computed(() => {
         .sort((a, b) => a.sessionNumber - b.sessionNumber);
 
     if (sessionsWithoutDate.length) {
-        grouped["Not Date"] = sessionsWithoutDate;
+        grouped["Ngày không xác định"] = sessionsWithoutDate;
     }
 
     return grouped;
@@ -119,7 +126,7 @@ const groupedSessions = computed(() => {
 <style scoped>
 .sessions {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -164,7 +171,7 @@ const groupedSessions = computed(() => {
 
 .session-card.todayIncomplete {
     background-color: #e6f2ff;
-    border: 1px solid #0c70e6;
+    border: 2px solid #0c70e6;
 }
 
 .session-number {
@@ -284,5 +291,27 @@ const groupedSessions = computed(() => {
 
 .unit-status.lated {
     color: #f89c1b;
+}
+
+.header-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.line {
+    border: 0.1px solid #e5e5e5;
+    width: 100%;
+}
+
+.month {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    width: 40%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
 }
 </style>

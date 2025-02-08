@@ -1,6 +1,7 @@
 <template>
   <div class="main-dashboard">
     <AppHeader />
+    <hr />
     <main class="content">
       <div class="title">
         <label class="level-name">
@@ -9,17 +10,17 @@
         <div class="dashboard">
           <div class="sessions">
             <div class="sessions-header">
-              <div class="sessions-btn">Hôm nay</div>
-              <div class="sessions-title">Tổng quan</div>
+              <button class="sessions-btn">Hôm nay</button>
+              <span class="sessions-title">Tổng quan</span>
             </div>
             <hr class="hr" />
-            <div class="month">
-              Tháng 10, 2024
-
-            </div>
             <AppMain />
           </div>
-          <SessionProcess />
+          <div class="dashboard-left">
+            <SessionProcess />
+            <div class="name">Nguyễn Thị Thu Hường</div>
+            <div class="img-cover"><img :src="cover" alt=""></div>
+          </div>
         </div>
 
 
@@ -33,7 +34,7 @@ import AppHeader from "@/components/AppHeader.vue";
 import AppMain from "@/components/AppMain.vue";
 import data from "@/server/api/data";
 import SessionProcess from "./components/SessionProcess.vue";
-</script>
+import cover from "@/assets/images/cover.svg";</script>
 <style scoped>
 * {
   margin: 0;
@@ -42,14 +43,13 @@ import SessionProcess from "./components/SessionProcess.vue";
 }
 
 .main-dashboard {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: fit-content;
   background: linear-gradient(#007ff4, #a2d6ec);
 }
 
 .content {
   padding: 0 40px;
-  border-top: 1px solid rgb(255, 255, 255);
 }
 
 .title {
@@ -103,8 +103,32 @@ import SessionProcess from "./components/SessionProcess.vue";
   font-weight: bold;
 }
 
-.month {
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 10px;
+  margin-left: 40px;
+  color: black;
+  gap: 10px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #55A8F6;
+  color: #c6f9ff;
+  text-align: center;
+}
+
+.img-cover {
   display: flex;
   justify-content: center;
+}
+
+hr {
+  border: 0.1px solid #e5e5e5;
 }
 </style>
