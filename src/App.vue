@@ -13,7 +13,7 @@
           </div>
           <div class="dashboard-left">
             <SessionProcess />
-            <div class="name">Nguyễn Thị Thu Hường</div>
+            <label class="name">Nguyễn Thị Thu Hường</label>
             <div class="img-cover"><img :src="cover" alt=""></div>
           </div>
         </div>
@@ -39,16 +39,15 @@ import cover from "@/assets/images/cover.svg";</script>
 
 .main-dashboard {
   width: 100%;
-  height: fit-content;
+  height: 100vh;
   background: linear-gradient(#007ff4, #a2d6ec);
 }
 
 .content {
-  padding: 0 40px;
+  margin: 10px 40px;
 }
 
 .title {
-  padding: 20px 0;
   color: white;
   font-family: "Arial";
   font-size: 15px;
@@ -58,12 +57,12 @@ import cover from "@/assets/images/cover.svg";</script>
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.5pc;
   font-weight: 500;
-  margin-left: 40px;
 }
 
 .dashboard {
   display: flex;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .sessions-container {
@@ -83,7 +82,6 @@ import cover from "@/assets/images/cover.svg";</script>
   display: flex;
   flex-direction: column;
   width: 20%;
-  padding: 10px;
   margin-left: 40px;
   color: black;
   gap: 10px;
@@ -102,9 +100,11 @@ import cover from "@/assets/images/cover.svg";</script>
 .img-cover {
   display: flex;
   justify-content: center;
+  height: auto;
+  max-width: 10100%;
 }
 
 hr {
-  border: 0.1px solid #e5e5e5;
+  border: 0.1px solid #1790ff;
 }
 </style>

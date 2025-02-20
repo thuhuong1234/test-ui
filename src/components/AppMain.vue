@@ -37,8 +37,9 @@
                                 <ul :class="['unit-title', handleStatus(session)]">
                                     <li>{{ getUnitTitle(session) }}</li>
                                 </ul>
-                                <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
+
                             </div>
+                            <div :class="['unit-status', handleStatus(session)]">{{ getUnitLabel(session) }}</div>
                         </div>
                     </div>
                 </div>
@@ -178,7 +179,7 @@ const scrollToTodaySession = () => {
 .sessions {
     flex: 1;
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 75vh;
     padding: 10px;
     scrollbar-width: thin;
     scrollbar-color: #888 #e5e5e5;
@@ -188,7 +189,16 @@ const scrollToTodaySession = () => {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
+
 }
+
+.session {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Đảm bảo chiều cao thẻ cha đầy đủ */
+}
+
 
 .session-header {
     display: flex;
@@ -209,6 +219,7 @@ const scrollToTodaySession = () => {
     border-radius: 8px;
     color: white;
     transition: background-color 0.3s ease;
+    height: 100%;
 }
 
 .session-card.completed {
@@ -283,6 +294,7 @@ const scrollToTodaySession = () => {
 
 .unit {
     color: black;
+    height: 100%;
 }
 
 .unit-title {
@@ -342,6 +354,7 @@ const scrollToTodaySession = () => {
 .unit-status {
     font-weight: 500;
     margin-left: 15px;
+    bottom: 0;
 }
 
 .unit-status.completed {
@@ -360,7 +373,7 @@ const scrollToTodaySession = () => {
 }
 
 .line {
-    border: 0.1px solid #e5e5e5;
+    border: 0.1px solid #f7f7f7;
     width: 100%;
 }
 

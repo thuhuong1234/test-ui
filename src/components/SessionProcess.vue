@@ -108,7 +108,7 @@ const statusMessage = computed(() => {
 }
 
 hr {
-    border: 0.1px solid #e5e5e5;
+    border: 0.1px solid #f7f7f7;
     margin: 0px;
 }
 
@@ -127,7 +127,7 @@ hr {
 .progress {
     width: 100%;
     height: 15px;
-    background-color: #e5e5e5;
+    background-color: #f7f7f7;
     border-radius: 8px;
     overflow: hidden;
     position: relative;
