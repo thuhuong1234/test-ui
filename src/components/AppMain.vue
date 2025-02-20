@@ -110,29 +110,58 @@ const getUnitLabel = (session) => {
 
     }
 }
+const getMonthYear = (date) => {
+    let dateObj = new Date(date);
+    return `Tháng ${dateObj.getMonth() + 1}, ${dateObj.getFullYear()}`;
+};
 
-const groupedSessions = computed(() => {
-    let sessionsWithDate = sessions.value
-        .filter(session => session.date)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-    let grouped = {};
-    sessionsWithDate.forEach(session => {
-        let dateObj = new Date(session.date);
-        let month = `Tháng ${dateObj.getMonth() + 1}, ${dateObj.getFullYear()}`;
-        if (!grouped[month]) grouped[month] = [];
-        grouped[month].push(session);
+const sortSessions = (sessions) => {
+    return [...sessions].sort((a, b) => a.overall_index - b.overall_index);
+};
+
+const groupSessionsByMonth = (sessions) => {
+    const grouped = {};
+    let lastKnownMonth = null;
+    let firstMonthFound = false;
+
+    sessions.forEach(session => {
+        if (session.date) {
+            let monthYear = getMonthYear(session.date);
+
+            if (!firstMonthFound) {
+                lastKnownMonth = monthYear;
+                firstMonthFound = true;
+            }
+
+            grouped[monthYear] = grouped[monthYear] || [];
+            grouped[monthYear].push(session);
+            lastKnownMonth = monthYear;
+        } else {
+            if (lastKnownMonth) {
+                grouped[lastKnownMonth].push(session);
+            } else {
+                for (let s of sessions) {
+                    if (s.date) {
+                        let firstMonth = getMonthYear(s.date);
+                        grouped[firstMonth] = grouped[firstMonth] || [];
+                        grouped[firstMonth].push(session);
+                        break;
+                    }
+                }
+            }
+        }
     });
 
-    let sessionsWithoutDate = sessions.value
-        .filter(session => !session.date)
-        .sort((a, b) => a.sessionNumber - b.sessionNumber);
-
-    if (sessionsWithoutDate.length) {
-        grouped["Ngày không xác định"] = sessionsWithoutDate;
-    }
-
     return grouped;
+};
+
+const groupedSessions = computed(() => {
+    if (!sessions.value || !Array.isArray(sessions.value)) return {};
+
+    const sortedSessions = sortSessions(sessions.value);
+    return groupSessionsByMonth(sortedSessions);
 });
+
 const scrollToTodaySession = () => {
     let todaySessionCard = null;
     if (document.querySelector('.session-card.todayCompleted')) {
