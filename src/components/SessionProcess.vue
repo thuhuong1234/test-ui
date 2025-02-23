@@ -14,8 +14,9 @@
                 data.missions.total_cups }} </div>
         </div>
         <hr />
+        <div class="earned-cups"> <span>Số Unit đạt {{ data.missions.actual_completed_units }} cúp/ Tổng số Unit:</span>
+        </div>
         <div class="progress-container">
-            <span>Số Unit đạt {{ data.missions.actual_completed_units }} cúp/ Tổng số Unit:</span>
             <div class="progress">
                 <div class="progress-fill actual" :style="{ width: actualProgress + '%' }"></div>
                 <div class="progress-fill expected" :style="{ width: expectedProgress + '%' }"></div>
@@ -131,7 +132,6 @@ hr {
     border-radius: 8px;
     overflow: hidden;
     position: relative;
-    margin-top: 15px;
 }
 
 .progress-fill {

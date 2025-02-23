@@ -187,8 +187,8 @@ const scrollToTodaySession = () => {
 
 .session-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 
 }
 
@@ -196,7 +196,6 @@ const scrollToTodaySession = () => {
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* Đảm bảo chiều cao thẻ cha đầy đủ */
 }
 
 
@@ -209,12 +208,12 @@ const scrollToTodaySession = () => {
     color: white;
     transition: background-color 0.3s ease;
     justify-content: space-between;
+    height: 20%;
 }
 
 .session-card {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     padding: 10px;
     border-radius: 8px;
     color: white;
@@ -247,14 +246,14 @@ const scrollToTodaySession = () => {
 .session-number {
     color: white;
     border-radius: 10px;
-    padding: 5px;
-    height: 20px;
+    height: 25px;
     width: 80px;
     text-align: center;
     align-items: center;
     display: flex;
     justify-content: center;
     gap: 5px;
+    font-size: 14px;
 }
 
 .session-number.completed {
@@ -281,6 +280,7 @@ const scrollToTodaySession = () => {
 .session-date {
     color: black;
     font-weight: 600;
+    font-size: 14px;
 }
 
 .session-ward {
@@ -294,11 +294,14 @@ const scrollToTodaySession = () => {
 
 .unit {
     color: black;
-    height: 100%;
+    height: 55%;
+
 }
 
 .unit-title {
     color: #616b75;
+    margin: 4px;
+    font-size: 13px;
 }
 
 .unit-title.completed li::marker {
@@ -355,6 +358,9 @@ const scrollToTodaySession = () => {
     font-weight: 500;
     margin-left: 15px;
     bottom: 0;
+    font-size: 13px;
+    height: 25%;
+
 }
 
 .unit-status.completed {
@@ -390,7 +396,7 @@ const scrollToTodaySession = () => {
 .sessions-header {
     display: flex;
     gap: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
 }
 
 .sessions-btn {

@@ -26,7 +26,7 @@ import defaultAvatar from '@/assets/images/default-avatar.jpeg';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px 40px;
+    padding: 8px 40px;
 }
 
 .app-menu {
